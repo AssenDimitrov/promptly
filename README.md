@@ -31,19 +31,23 @@ when it's done. Click it to jump straight back to where Claude is running.
 ## Install
 
 One line — fetches Promptly, sets up a private virtualenv (PySide6 won't touch your
-system Python), and puts `promptly` on your PATH:
+system Python; uses [`uv`](https://docs.astral.sh/uv/) if it's installed, with live
+download progress), and puts `promptly` on your PATH:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AssenDimitrov/promptly/main/install.sh | bash
 ```
 
-Then:
+Then just run it:
 
 ```bash
-promptly --skin spinner            # spinner skin (default), parks bottom-right
-promptly --skin orb                # pick another look (see "Skins")
-curl -s localhost:7654/yellow      # drive it from anywhere
+promptly                 # starts in the background, parks bottom-right
+promptly --skin orb      # pick another look (see "Skins")
 ```
+
+`promptly` launches **detached** — it won't hold your terminal — and prints how to
+connect it to Claude Code. Logs go to `$TMPDIR/promptly.log`; stop it with the
+printed `kill <pid>`, or right-click the light → **Quit**.
 
 Installs into `~/.local` (override with `PROMPTLY_PREFIX`). Re-run to update.
 Uninstall with `rm -rf ~/.local/share/promptly ~/.local/bin/promptly`.
@@ -142,7 +146,8 @@ line.
 ## Connect it to Claude Code
 
 Claude Code fires lifecycle **hooks** you can map straight onto the light. Open
-`claude-code-settings.json`, copy its `hooks` block into either:
+`claude-code-settings.json` (installed at `~/.local/share/promptly/claude-code-settings.json`),
+copy its `hooks` block into either:
 
 - `~/.claude/settings.json` — applies to every project, or
 - `<project>/.claude/settings.json` — just this repo.
@@ -179,9 +184,10 @@ hook runs **`register-claude-window.sh`**, which auto-detects where to focus:
   `export CLAUDE_WINDOW_TITLE=claude-code`. **Wayland** generally blocks one app
   from focusing another's window — there it may not work.
 
-Edit `/path/to/promptly` in the `SessionStart` hook to point at this folder.
-You can also set the target by hand any time: **right-click → Claude window → Set
-target…**, and test it with **Claude window → Focus now**.
+Edit `/path/to/trafficlight` in the `SessionStart` hook to point at this folder
+(after the one-line install that's `~/.local/share/promptly`). You can also set the
+target by hand any time: **right-click → Claude window → Set target…**, and test it
+with **Claude window → Focus now**.
 
 ---
 
@@ -230,7 +236,7 @@ change across macOS releases. Everything else uses public APIs only.
 
 ```bash
 # float over everything, including other apps in fullscreen
-PROMPTLY_FORCE_ALL_SPACES=1 python promtply.py --skin spinner
+PROMPTLY_FORCE_ALL_SPACES=1 python promptly.py --skin spinner
 ```
 
 > These knobs are macOS-only and harmless elsewhere. On Linux the window manager
