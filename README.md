@@ -27,7 +27,7 @@ One line — fetches Promptly, sets up a private virtualenv (PySide6 won't touch
 system Python), and puts `promptly` + `tl` on your PATH:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/USER/promptly/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/AssenDimitrov/promptly/main/install.sh | bash
 ```
 
 Then:
@@ -49,7 +49,7 @@ Uninstall with `rm -rf ~/.local/share/promptly ~/.local/bin/{promptly,tl}`.
 ## Quick start (from source)
 
 ```bash
-git clone https://github.com/USER/promptly && cd promptly
+git clone https://github.com/AssenDimitrov/promptly && cd promptly
 pip install -r requirements.txt         # just PySide6 (or: pip install PySide6)
 
 python promptly.py                 # spinner skin (default), parks bottom-right

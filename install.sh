@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Promptly installer.
 #
-#   curl -fsSL https://raw.githubusercontent.com/USER/promptly/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/AssenDimitrov/promptly/main/install.sh | bash
 #
 # Installs into ~/.local (override with PROMPTLY_PREFIX), in a private virtualenv
 # so PySide6 never touches your system Python, and puts `promptly` + `tl` on PATH.
 # Re-run any time to update. Uninstall:  rm -rf ~/.local/share/promptly ~/.local/bin/{promptly,tl}
 set -euo pipefail
 
-REPO="${PROMPTLY_REPO:-https://raw.githubusercontent.com/USER/promptly/main}"
+REPO="${PROMPTLY_REPO:-https://raw.githubusercontent.com/AssenDimitrov/promptly/main}"
 PREFIX="${PROMPTLY_PREFIX:-$HOME/.local}"
 SHARE="$PREFIX/share/promptly"
 BIN="$PREFIX/bin"
