@@ -31,7 +31,7 @@ when it's done. Click it to jump straight back to where Claude is running.
 ## Install
 
 One line — fetches Promptly, sets up a private virtualenv (PySide6 won't touch your
-system Python), and puts `promptly` + `tl` on your PATH:
+system Python), and puts `promptly` on your PATH:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AssenDimitrov/promptly/main/install.sh | bash
@@ -40,16 +40,23 @@ curl -fsSL https://raw.githubusercontent.com/AssenDimitrov/promptly/main/install
 Then:
 
 ```bash
-promptly --skin spinner      # spinner skin (default), parks bottom-right
-promptly --skin orb          # pick another look (see "Skins")
-tl yellow --flash            # drive it from anywhere
+promptly --skin spinner            # spinner skin (default), parks bottom-right
+promptly --skin orb                # pick another look (see "Skins")
+curl -s localhost:7654/yellow      # drive it from anywhere
 ```
 
 Installs into `~/.local` (override with `PROMPTLY_PREFIX`). Re-run to update.
-Uninstall with `rm -rf ~/.local/share/promptly ~/.local/bin/{promptly,tl}`.
+Uninstall with `rm -rf ~/.local/share/promptly ~/.local/bin/promptly`.
 
 > Prefer to read before you pipe to a shell? It's a tiny script —
 > [`install.sh`](install.sh). Or run from source (below).
+
+**Or with [pipx](https://pipx.pypa.io) / [uv](https://docs.astral.sh/uv/):**
+
+```bash
+pipx install git+https://github.com/AssenDimitrov/promptly      # then: promptly
+uv tool install git+https://github.com/AssenDimitrov/promptly   # (uv alternative)
+```
 
 ---
 
@@ -99,8 +106,8 @@ or start with `--skin <name>`:
 | Traffic light | `traffic` | the classic three lamps |
 | Tamagotchi | `tamagotchi` | a creature that works, calls you, and rests |
 
-A skin is purely a *render strategy* over the state — the HTTP server, the `tl` CLI,
-and your Claude Code hooks are identical for every skin. Adding your own is one class
+A skin is purely a *render strategy* over the state — the HTTP server and your
+Claude Code hooks are identical for every skin. Adding your own is one class
 (see [How it's built](#how-its-built)).
 
 ---
@@ -124,15 +131,6 @@ Or richer JSON via POST:
 ```bash
 curl -s localhost:7654/state \
   -d '{"state":"yellow","flash":true,"label":"Running tests"}'
-```
-
-There's also a one-liner helper, `tl`:
-
-```bash
-chmod +x tl && cp tl /usr/local/bin/   # install once
-tl red
-tl yellow --flash --label "Waiting on you"
-tl green
 ```
 
 That HTTP endpoint is the whole extensibility story: **GitHub Actions, a deploy
@@ -228,7 +226,7 @@ change across macOS releases. Everything else uses public APIs only.
 | `PROMPTLY_KEEP_DOCK` | off | `=1` keeps the Dock icon (you then **lose** the over-fullscreen overlay). |
 | `PROMPTLY_NO_ORDERFRONT` | off | `=1` skips the periodic re-raise (rarely needed). |
 | `PROMPTLY_DEBUG` | off | `=1` prints one diagnostic line about the native window state to stderr. |
-| `TL_PORT` | `7654` | Control port for the `tl` helper and `register-claude-window.sh` (match `--port`). |
+| `TL_PORT` | `7654` | Control port used by `register-claude-window.sh` (match `--port`). |
 
 ```bash
 # float over everything, including other apps in fullscreen
@@ -247,11 +245,11 @@ PROMPTLY_FORCE_ALL_SPACES=1 python promtply.py --skin spinner
                        │  HTTP GET/POST  →  /red /yellow /green /off /state
                        ▼
    ┌──────────────────────────────────────────────┐
-   │  promptly.py                             │
-   │  ┌────────────┐   Qt signal   ┌────────────┐  │
-   │  │ HTTP server│ ────────────► │  widget    │  │
-   │  │ (thread)   │  (thread-safe)│  + skin    │  │
-   │  └────────────┘               └────────────┘  │
+   │  promptly.py                                 │
+   │  ┌────────────┐   Qt signal   ┌────────────┐ │
+   │  │ HTTP server│ ────────────► │  widget    │ │
+   │  │ (thread)   │  (thread-safe)│  + skin    │ │
+   │  └────────────┘               └────────────┘ │
    └──────────────────────────────────────────────┘
 ```
 

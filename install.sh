@@ -4,8 +4,8 @@
 #   curl -fsSL https://raw.githubusercontent.com/AssenDimitrov/promptly/main/install.sh | bash
 #
 # Installs into ~/.local (override with PROMPTLY_PREFIX), in a private virtualenv
-# so PySide6 never touches your system Python, and puts `promptly` + `tl` on PATH.
-# Re-run any time to update. Uninstall:  rm -rf ~/.local/share/promptly ~/.local/bin/{promptly,tl}
+# so PySide6 never touches your system Python, and puts `promptly` on PATH.
+# Re-run any time to update. Uninstall:  rm -rf ~/.local/share/promptly ~/.local/bin/promptly
 set -euo pipefail
 
 REPO="${PROMPTLY_REPO:-https://raw.githubusercontent.com/AssenDimitrov/promptly/main}"
@@ -22,11 +22,11 @@ command -v curl    >/dev/null 2>&1 || die "curl is required but not found."
 say "Installing Promptly into $SHARE"
 mkdir -p "$SHARE" "$BIN"
 
-for f in promptly.py tl register-claude-window.sh; do
+for f in promptly.py register-claude-window.sh; do
   say "fetching $f"
   curl -fsSL "$REPO/$f" -o "$SHARE/$f" || die "could not download $f from $REPO"
 done
-chmod +x "$SHARE/tl" "$SHARE/register-claude-window.sh"
+chmod +x "$SHARE/register-claude-window.sh"
 
 say "creating a private virtualenv + installing PySide6 (this can take a minute)"
 python3 -m venv "$SHARE/.venv"
@@ -40,12 +40,9 @@ exec "$SHARE/.venv/bin/python" "$SHARE/promptly.py" "\$@"
 EOF
 chmod +x "$BIN/promptly"
 
-# `tl` helper on PATH
-ln -sf "$SHARE/tl" "$BIN/tl"
-
-say "installed:  promptly  and  tl  →  $BIN"
+say "installed:  promptly  →  $BIN"
 case ":$PATH:" in
   *":$BIN:"*) : ;;
   *) printf '\033[1;33m!  Add %s to your PATH, e.g.:\033[0m\n   echo '"'"'export PATH="%s:$PATH"'"'"' >> ~/.zshrc\n' "$BIN" "$BIN" ;;
 esac
-say "try it:  promptly --skin spinner   (then in another shell)   tl yellow --flash"
+say "try it:  promptly --skin spinner   (then)   curl -s localhost:7654/yellow"
