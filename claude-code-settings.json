@@ -1,0 +1,27 @@
+{
+  "_comment": "Merge the 'hooks' key into ~/.claude/settings.json (global) or .claude/settings.json (per-project). Maps Claude Code events to the light, and on SessionStart registers which window to raise when you left-click the light. Replace /path/to/trafficlight with the real folder. -m 1 caps each curl at 1s; '|| true' means a stopped widget never blocks Claude Code; async:true keeps hooks off the critical path.",
+
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [
+        { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/green?label=Ready' >/dev/null 2>&1 || true" },
+        { "type": "command", "async": true, "command": "bash /path/to/trafficlight/register-claude-window.sh >/dev/null 2>&1 || true" }
+      ] }
+    ],
+    "UserPromptSubmit": [
+      { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/red?label=Working' >/dev/null 2>&1 || true" } ] }
+    ],
+    "PreToolUse": [
+      { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/red?label=Running+a+tool' >/dev/null 2>&1 || true" } ] }
+    ],
+    "Notification": [
+      { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/yellow?flash=1&label=Needs+your+input' >/dev/null 2>&1 || true" } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/green?label=Ready' >/dev/null 2>&1 || true" } ] }
+    ],
+    "SessionEnd": [
+      { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 localhost:7654/off >/dev/null 2>&1 || true" } ] }
+    ]
+  }
+}
