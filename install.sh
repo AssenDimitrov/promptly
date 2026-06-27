@@ -41,8 +41,34 @@ EOF
 chmod +x "$BIN/promptly"
 
 say "installed:  promptly  →  $BIN"
+
 case ":$PATH:" in
-  *":$BIN:"*) : ;;
-  *) printf '\033[1;33m!  Add %s to your PATH, e.g.:\033[0m\n   echo '"'"'export PATH="%s:$PATH"'"'"' >> ~/.zshrc\n' "$BIN" "$BIN" ;;
+  *":$BIN:"*)
+    say "$BIN is already on your PATH — you're all set."
+    ;;
+  *)
+    # Build a portable export line ($HOME-relative if BIN lives under $HOME).
+    PATH_DIR="$BIN"
+    case "$BIN" in "$HOME"/*) PATH_DIR="\$HOME${BIN#"$HOME"}" ;; esac
+    EXPORT_LINE="export PATH=\"$PATH_DIR:\$PATH\""
+
+    # Pick the right startup file for the user's shell.
+    case "$(basename "${SHELL:-}")" in
+      zsh)  RC="$HOME/.zshrc" ;;
+      bash) [ "$(uname)" = "Darwin" ] && RC="$HOME/.bash_profile" || RC="$HOME/.bashrc" ;;
+      fish) RC="$HOME/.config/fish/config.fish" ;;
+      *)    RC="" ;;
+    esac
+
+    printf '\n\033[1;33m!  %s is not on your PATH yet. To fix it:\033[0m\n' "$BIN"
+    if [ "$(basename "${SHELL:-}")" = "fish" ]; then
+      printf '\n    fish_add_path %s\n\n' "$BIN"
+    elif [ -n "$RC" ]; then
+      printf '\n    echo '"'"'%s'"'"' >> %s\n    source %s\n\n' "$EXPORT_LINE" "$RC" "$RC"
+    else
+      printf '\n  Add this line to your shell startup file, then restart your shell:\n\n    %s\n\n' "$EXPORT_LINE"
+    fi
+    ;;
 esac
+
 say "try it:  promptly --skin spinner   (then)   curl -s localhost:7654/yellow"
