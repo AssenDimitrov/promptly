@@ -10,11 +10,11 @@ Promptly is a tiny, movable, **always-on-top** status light for **macOS & Linux*
 By default it's a slick **spinner** — it spins while busy, pulses when it needs you,
 and settles into a ✓ when it's done:
 
-| State | Spinner shows | Meaning |
-|------|------|---------|
-| 🔄 Busy | a spinning arc `◜◝◞◟` | working |
-| 🔔 Needs you | a pulsing dot `●` | needs your input |
-| ✅ Ready | a steady check `✓` | ready / idle |
+| Spinner | State | Meaning |
+|:------:|------|---------|
+| <img src="docs/spinner-busy.svg" width="40" alt="spinning arc"> | **Busy** | working |
+| <img src="docs/spinner-needs.svg" width="40" alt="pulsing dot"> | **Needs you** | needs your input |
+| <img src="docs/spinner-ready.svg" width="40" alt="green check"> | **Ready** | ready / idle |
 
 Prefer something else? Switch looks in one click — orb, breathing gradient, classic
 traffic light, or a little Tamagotchi (see [Skins](#skins)).
