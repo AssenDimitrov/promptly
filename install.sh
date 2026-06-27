@@ -22,7 +22,7 @@ command -v curl    >/dev/null 2>&1 || die "curl is required but not found."
 say "Installing Promptly into $SHARE"
 mkdir -p "$SHARE" "$BIN"
 
-for f in promptly.py register-claude-window.sh; do
+for f in promptly.py register-claude-window.sh claude-code-settings.json; do
   say "fetching $f"
   curl -fsSL "$REPO/$f" -o "$SHARE/$f" || die "could not download $f from $REPO"
 done
@@ -43,10 +43,28 @@ else
   "$SHARE/.venv/bin/python" -m pip install --no-compile --progress-bar on PySide6-Essentials
 fi
 
-# `promptly` launcher → runs the bundled script with the private venv's Python
+# `promptly` launcher → starts the widget DETACHED so it never holds the terminal,
+# then prints how to wire it up to Claude Code.
 cat > "$BIN/promptly" <<EOF
 #!/usr/bin/env bash
-exec "$SHARE/.venv/bin/python" "$SHARE/promptly.py" "\$@"
+VENV_PY="$SHARE/.venv/bin/python"
+APP="$SHARE/promptly.py"
+SETTINGS="$SHARE/claude-code-settings.json"
+LOG="\${TMPDIR:-/tmp}/promptly.log"
+
+# Run in the background, detached from this shell; logs go to \$LOG.
+nohup "\$VENV_PY" "\$APP" "\$@" >"\$LOG" 2>&1 &
+disown 2>/dev/null || true
+
+echo "Promptly started in the background (pid \$!).  logs: \$LOG"
+echo
+echo "Connect Claude Code so the light tracks your sessions:"
+echo "  1. Open  \$SETTINGS"
+echo "  2. Copy its hooks block into  ~/.claude/settings.json"
+echo "     (replace /path/to/trafficlight with  $SHARE )"
+echo "  3. Start a Claude Code session — the light follows it live."
+echo
+echo "Stop Promptly:  kill \$!   (or right-click the light → Quit)"
 EOF
 chmod +x "$BIN/promptly"
 
@@ -81,4 +99,5 @@ case ":$PATH:" in
     ;;
 esac
 
-say "try it:  promptly --skin spinner   (then)   curl -s localhost:7654/yellow"
+say "start it:  promptly        (it runs in the background)"
+say "then connect Claude Code — see $SHARE/claude-code-settings.json (hooks → ~/.claude/settings.json)"

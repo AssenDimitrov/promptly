@@ -1078,8 +1078,8 @@ def main():
               f"Is another instance already running? Try --port <other>.", file=sys.stderr)
         return 1
 
-    print(f"Promptly running ({args.skin}). Control it at "
-          f"http://{HOST}:{args.port}  (e.g. curl -s {HOST}:{args.port}/red)")
+    print(f"Promptly running ({args.skin}) — control server on "
+          f"http://{HOST}:{args.port}")
     return app.exec()
 
 
