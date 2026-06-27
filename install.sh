@@ -28,10 +28,18 @@ for f in promptly.py register-claude-window.sh; do
 done
 chmod +x "$SHARE/register-claude-window.sh"
 
-say "creating a private virtualenv + installing PySide6 (this can take a minute)"
-python3 -m venv "$SHARE/.venv"
-"$SHARE/.venv/bin/python" -m pip install --quiet --upgrade pip
-"$SHARE/.venv/bin/python" -m pip install --quiet PySide6
+if command -v uv >/dev/null 2>&1; then
+  say "creating a private virtualenv with uv (PySide6 is a large download, ~100MB)"
+  uv venv "$SHARE/.venv"
+  say "installing PySide6 — live progress below"
+  VIRTUAL_ENV="$SHARE/.venv" uv pip install PySide6-Essentials
+else
+  say "creating a private virtualenv (PySide6 is a large download, ~100MB)"
+  python3 -m venv "$SHARE/.venv"
+  "$SHARE/.venv/bin/python" -m pip install --quiet --upgrade pip
+  say "installing PySide6 — live progress below"
+  "$SHARE/.venv/bin/python" -m pip install --progress-bar on PySide6-Essentials
+fi
 
 # `promptly` launcher → runs the bundled script with the private venv's Python
 cat > "$BIN/promptly" <<EOF

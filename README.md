@@ -64,7 +64,7 @@ uv tool install git+https://github.com/AssenDimitrov/promptly   # (uv alternativ
 
 ```bash
 git clone https://github.com/AssenDimitrov/promptly && cd promptly
-pip install -r requirements.txt         # just PySide6 (or: pip install PySide6)
+pip install -r requirements.txt         # just PySide6-Essentials (or: pip install PySide6-Essentials)
 
 python promptly.py                 # spinner skin (default), parks bottom-right
 python promptly.py --skin orb      # pick another look (see "Skins")

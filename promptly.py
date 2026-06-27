@@ -23,7 +23,7 @@ Control examples (any of these work):
     curl -s localhost:7654/state          # read current state as JSON
 
 Run:
-    pip install PySide6
+    pip install PySide6-Essentials
     python promptly.py                      # spinner skin (default)
     python promptly.py --skin orb
     python promptly.py --skin traffic --scale 1.4
