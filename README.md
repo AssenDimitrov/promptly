@@ -2,15 +2,22 @@
 
 **Know when Claude needs you — without alt-tabbing.**
 
-Promptly is a tiny, movable, **always-on-top** status light for **macOS & Linux**.
-Pick a look (orb, spinner, breathing gradient, classic traffic light, or a little
-Tamagotchi), and it glows to tell you what's going on:
+<!-- Demo: drop a screen recording at docs/demo.gif and uncomment the line below.
+     A 5–8s clip of the spinner going busy → needs-you → ✓ is perfect. -->
+<!-- ![Promptly spinner demo](docs/demo.gif) -->
 
-| State | Meaning |
-|------|---------|
-| 🔴 red | busy / working |
-| 🟡 yellow | needs your input |
-| 🟢 green | ready / idle |
+Promptly is a tiny, movable, **always-on-top** status light for **macOS & Linux**.
+By default it's a slick **spinner** — it spins while busy, pulses when it needs you,
+and settles into a ✓ when it's done:
+
+| State | Spinner shows | Meaning |
+|------|------|---------|
+| 🔴 busy | a spinning arc `◜◝◞◟` | working |
+| 🟡 needs you | a pulsing dot `●` | needs your input |
+| 🟢 ready | a steady check `✓` | ready / idle |
+
+Prefer something else? Switch looks in one click — orb, breathing gradient, classic
+traffic light, or a little Tamagotchi (see [Skins](#skins)).
 
 It's driven by a dead-simple **local HTTP server**, so *anything* that can run a
 shell command or hit a URL can control it — Claude Code, shell scripts, CI, cron,
