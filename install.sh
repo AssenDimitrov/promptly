@@ -29,16 +29,18 @@ done
 chmod +x "$SHARE/register-claude-window.sh"
 
 if command -v uv >/dev/null 2>&1; then
-  say "creating a private virtualenv with uv (PySide6 is a large download, ~100MB)"
+  say "creating a private virtualenv with uv"
   uv venv "$SHARE/.venv"
   say "installing PySide6 — live progress below"
   VIRTUAL_ENV="$SHARE/.venv" uv pip install PySide6-Essentials
 else
-  say "creating a private virtualenv (PySide6 is a large download, ~100MB)"
+  say "creating a private virtualenv"
   python3 -m venv "$SHARE/.venv"
   "$SHARE/.venv/bin/python" -m pip install --quiet --upgrade pip
   say "installing PySide6 — live progress below"
-  "$SHARE/.venv/bin/python" -m pip install --progress-bar on PySide6-Essentials
+  # --no-compile: PySide6 ships invalid-Python Jinja templates (deploy_lib/*.tmpl.py);
+  # byte-compiling them crashes pip on older Pythons when stdout is a pipe (curl|bash).
+  "$SHARE/.venv/bin/python" -m pip install --no-compile --progress-bar on PySide6-Essentials
 fi
 
 # `promptly` launcher → runs the bundled script with the private venv's Python
