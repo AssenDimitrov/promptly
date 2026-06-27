@@ -1,4 +1,4 @@
-# Promptly 🚦
+# Promptly 
 
 **Know when Claude needs you — without alt-tabbing.**
 
@@ -12,9 +12,9 @@ and settles into a ✓ when it's done:
 
 | State | Spinner shows | Meaning |
 |------|------|---------|
-| 🔴 busy | a spinning arc `◜◝◞◟` | working |
-| 🟡 needs you | a pulsing dot `●` | needs your input |
-| 🟢 ready | a steady check `✓` | ready / idle |
+| 🔄 Busy | a spinning arc `◜◝◞◟` | working |
+| 🔔 Needs you | a pulsing dot `●` | needs your input |
+| ✅ Ready | a steady check `✓` | ready / idle |
 
 Prefer something else? Switch looks in one click — orb, breathing gradient, classic
 traffic light, or a little Tamagotchi (see [Skins](#skins)).
