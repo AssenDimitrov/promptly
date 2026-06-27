@@ -201,9 +201,10 @@ Everything is configurable here:
 - **Opacity** → 100% / 85% / 70% / 50%
 - **Attach to top bar** → snaps flush to the top edge and locks it there
 - **Always on top** → float above other windows
-- **Show over fullscreen apps** *(macOS)* → also appear on other apps' fullscreen Spaces
+- **Show on all Spaces & over fullscreen apps** *(macOS)* → appear on every Space and
+  over other apps' fullscreen windows *(on by default)*
 - **Claude window** → *Focus now*, *Set target…*, and the current target
-- **Set lamp** → set the state by hand (handy for testing), and **Quit**
+- **Quit**
 
 ---
 
@@ -221,13 +222,14 @@ always-present `libobjc` — **no extra dependency**) and:
   lets it float over **other apps' fullscreen Spaces**.
 
 Overlaying *another app's native fullscreen* is the one thing public macOS APIs
-won't do, so it's **opt-in** (right-click → **Show over fullscreen apps**, or
-`PROMPTLY_FORCE_ALL_SPACES=1`) via a private Spaces API — undocumented and may
-change across macOS releases. Everything else uses public APIs only.
+won't do, so it uses a private Spaces API — undocumented and may change across
+macOS releases. It's **on by default**; turn it off with right-click → **Show on
+all Spaces & over fullscreen apps**, or `PROMPTLY_FORCE_ALL_SPACES=0`. Everything
+else uses public APIs only.
 
 | Variable | Default | Effect |
 |---|---|---|
-| `PROMPTLY_FORCE_ALL_SPACES` | off | `=1` also shows over **other apps' fullscreen** Spaces (private API; also a menu toggle). |
+| `PROMPTLY_FORCE_ALL_SPACES` | on | `=0` stops it showing over **other apps' fullscreen** Spaces (private API; also a menu toggle). |
 | `PROMPTLY_LEVEL` | `1000` | Window level. `1000` floats over fullscreen; `25` = status level (below the menu bar) if `1000` feels too aggressive. |
 | `PROMPTLY_KEEP_DOCK` | off | `=1` keeps the Dock icon (you then **lose** the over-fullscreen overlay). |
 | `PROMPTLY_NO_ORDERFRONT` | off | `=1` skips the periodic re-raise (rarely needed). |
@@ -235,8 +237,9 @@ change across macOS releases. Everything else uses public APIs only.
 | `TL_PORT` | `7654` | Control port used by `register-claude-window.sh` (match `--port`). |
 
 ```bash
-# float over everything, including other apps in fullscreen
-PROMPTLY_FORCE_ALL_SPACES=1 python promptly.py --skin spinner
+# floats over everything (incl. other apps' fullscreen) out of the box;
+# pass =0 to keep it off other apps' fullscreen Spaces
+PROMPTLY_FORCE_ALL_SPACES=0 python promptly.py --skin spinner
 ```
 
 > These knobs are macOS-only and harmless elsewhere. On Linux the window manager

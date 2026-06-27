@@ -578,7 +578,8 @@ class TrafficLight(QWidget):
         self.attached_top = False     # snap + lock to the top edge of the screen
         self.on_top = True
         # macOS: also float over other apps' fullscreen Spaces (private API).
-        self.force_all_spaces = os.environ.get("PROMPTLY_FORCE_ALL_SPACES") == "1"
+        # On by default now; set PROMPTLY_FORCE_ALL_SPACES=0 to start without it.
+        self.force_all_spaces = os.environ.get("PROMPTLY_FORCE_ALL_SPACES", "1") != "0"
         self.focus_spec = {}          # how to raise the window where Claude runs
         self.state = "off"
         self.flash = False
@@ -663,9 +664,10 @@ class TrafficLight(QWidget):
         if not screen:
             return
         geo = screen.availableGeometry()
-        # park it near the bottom-right, just inside the screen edge
-        x = geo.right() - self.width() - 24
-        y = geo.bottom() - self.height() - 24
+        # park it tight in the bottom-right corner, with just a small margin
+        margin = 8
+        x = geo.right() - self.width() - margin
+        y = geo.bottom() - self.height() - margin
         self.move(x, y)
 
     def _reposition(self):
@@ -911,9 +913,9 @@ class TrafficLight(QWidget):
         ontop.triggered.connect(lambda checked: self.set_always_on_top(checked))
         menu.addAction(ontop)
 
-        # Show over fullscreen apps (macOS only; uses a private Spaces API)
+        # Show on all Spaces & over fullscreen apps (macOS only; private Spaces API)
         if platform.system() == "Darwin":
-            fs = QAction("Show over fullscreen apps", self)
+            fs = QAction("Show on all Spaces && over fullscreen apps", self)
             fs.setCheckable(True)
             fs.setChecked(self.force_all_spaces)
             fs.triggered.connect(lambda checked: self.set_force_all_spaces(checked))
@@ -933,15 +935,6 @@ class TrafficLight(QWidget):
         current = QAction("Current: " + self.focus_target_text(), self)
         current.setEnabled(False)
         cmenu.addAction(current)
-
-        menu.addSeparator()
-
-        # Manual state control (handy for testing)
-        lmenu = menu.addMenu("Set lamp")
-        for key in VALID_STATES:
-            a = QAction(key.capitalize(), self)
-            a.triggered.connect(lambda _c=False, k=key: self.apply_state(k, False, ""))
-            lmenu.addAction(a)
 
         menu.addSeparator()
         info = QAction(f"Control port: {self.port}", self)
