@@ -24,10 +24,10 @@ Control examples (any of these work):
 
 Run:
     pip install PySide6
-    python traffic_light.py                      # traffic light (default)
-    python traffic_light.py --skin orb
-    python traffic_light.py --skin spinner --scale 1.4
-    python traffic_light.py --vertical --port 7654 --state green
+    python promptly.py                      # spinner skin (default)
+    python promptly.py --skin orb
+    python promptly.py --skin traffic --scale 1.4
+    python promptly.py --vertical --port 7654 --state green
 """
 
 import os

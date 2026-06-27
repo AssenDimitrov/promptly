@@ -21,16 +21,42 @@ when it's done. Click it to jump straight back to where Claude is running.
 
 ---
 
-## Quick start
+## Install
+
+One line — fetches Promptly, sets up a private virtualenv (PySide6 won't touch your
+system Python), and puts `promptly` + `tl` on your PATH:
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/USER/promptly/main/install.sh | bash
+```
+
+Then:
+
+```bash
+promptly --skin spinner      # spinner skin (default), parks bottom-right
+promptly --skin orb          # pick another look (see "Skins")
+tl yellow --flash            # drive it from anywhere
+```
+
+Installs into `~/.local` (override with `PROMPTLY_PREFIX`). Re-run to update.
+Uninstall with `rm -rf ~/.local/share/promptly ~/.local/bin/{promptly,tl}`.
+
+> Prefer to read before you pipe to a shell? It's a tiny script —
+> [`install.sh`](install.sh). Or run from source (below).
+
+---
+
+## Quick start (from source)
+
+```bash
+git clone https://github.com/USER/promptly && cd promptly
 pip install -r requirements.txt         # just PySide6 (or: pip install PySide6)
 
-python traffic_light.py                 # spinner skin (default), parks bottom-right
-python traffic_light.py --skin orb      # pick another look (see "Skins")
-python traffic_light.py --skin tamagotchi --scale 1.4
-python traffic_light.py --vertical      # classic vertical stoplight
-python traffic_light.py --state red --port 7654
+python promptly.py                 # spinner skin (default), parks bottom-right
+python promptly.py --skin orb      # pick another look (see "Skins")
+python promptly.py --skin tamagotchi --scale 1.4
+python promptly.py --vertical      # classic vertical stoplight
+python promptly.py --state red --port 7654
 ```
 
 Then flip it from anywhere:
@@ -148,7 +174,7 @@ hook runs **`register-claude-window.sh`**, which auto-detects where to focus:
   `export CLAUDE_WINDOW_TITLE=claude-code`. **Wayland** generally blocks one app
   from focusing another's window — there it may not work.
 
-Edit `/path/to/trafficlight` in the `SessionStart` hook to point at this folder.
+Edit `/path/to/promptly` in the `SessionStart` hook to point at this folder.
 You can also set the target by hand any time: **right-click → Claude window → Set
 target…**, and test it with **Claude window → Focus now**.
 
@@ -199,7 +225,7 @@ change across macOS releases. Everything else uses public APIs only.
 
 ```bash
 # float over everything, including other apps in fullscreen
-PROMPTLY_FORCE_ALL_SPACES=1 python traffic_light.py --skin spinner
+PROMPTLY_FORCE_ALL_SPACES=1 python promtply.py --skin spinner
 ```
 
 > These knobs are macOS-only and harmless elsewhere. On Linux the window manager
@@ -214,7 +240,7 @@ PROMPTLY_FORCE_ALL_SPACES=1 python traffic_light.py --skin spinner
                        │  HTTP GET/POST  →  /red /yellow /green /off /state
                        ▼
    ┌──────────────────────────────────────────────┐
-   │  traffic_light.py                             │
+   │  promptly.py                             │
    │  ┌────────────┐   Qt signal   ┌────────────┐  │
    │  │ HTTP server│ ────────────► │  widget    │  │
    │  │ (thread)   │  (thread-safe)│  + skin    │  │
