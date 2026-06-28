@@ -112,6 +112,8 @@ A skin is purely a *render strategy* over the state — the HTTP server and your
 Claude Code hooks are identical for every skin. Adding your own is one class
 (see [How it's built](#how-its-built)).
 
+👉 [See them move](#the-skins-side-by-side) at the bottom of this page.
+
 ---
 
 ## Control it (the extension point)
@@ -275,6 +277,44 @@ Built in **PySide6 (Qt)** because it's one pip-install, one file, no build step,
 and looks good on both OSes. The same local-HTTP design ports cleanly to Electron,
 Tauri, or a `rumps` menu-bar app if you'd rather — and your Claude Code hooks
 wouldn't change.
+
+---
+
+## The skins, side by side
+
+Same three states (busy → needs you → ready), five different personalities. The
+**spinner** is up top; here are the other four, each shown live in a different state
+so you can see how they read at a glance:
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/skin-orb.svg" height="86" alt="orb skin, ready"><br>
+      <b>Orb</b><br>
+      <sub>a single breathing glossy sphere</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/skin-tamagotchi.svg" height="86" alt="tamagotchi skin, needs you"><br>
+      <b>Tamagotchi</b><br>
+      <sub>a creature that works, calls you, and rests</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/skin-traffic.svg" height="62" alt="traffic light skin, cycling"><br>
+      <b>Traffic light</b><br>
+      <sub>the classic three lamps</sub>
+    </td>
+    <td align="center">
+      <img src="docs/skin-gradient.svg" width="190" alt="breathing gradient skin, busy"><br>
+      <b>Breathing gradient</b><br>
+      <sub>an ambient bar — great snapped to the top edge</sub>
+    </td>
+  </tr>
+</table>
+
+Switch between them any time via **right-click → Skin**, or start with
+`--skin orb` / `gradient` / `traffic` / `tamagotchi`.
 
 ---
 

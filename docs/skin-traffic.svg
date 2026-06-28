@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 68" width="168" height="68" role="img" aria-label="traffic light skin — cycling states">
+  <defs>
+    <radialGradient id="tlRed" cx="38%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#ffb3ad"/>
+      <stop offset="55%" stop-color="#ff453a"/>
+      <stop offset="100%" stop-color="#a31f17"/>
+    </radialGradient>
+    <radialGradient id="tlYellow" cx="38%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#fff2b0"/>
+      <stop offset="55%" stop-color="#ffd60a"/>
+      <stop offset="100%" stop-color="#a88c00"/>
+    </radialGradient>
+    <radialGradient id="tlGreen" cx="38%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#aef0b8"/>
+      <stop offset="55%" stop-color="#32d74b"/>
+      <stop offset="100%" stop-color="#1f8a32"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="167" height="67" rx="30" fill="#1a1a1c" stroke="#000000" stroke-opacity="0.47"/>
+
+  <!-- red -->
+  <circle cx="34" cy="34" r="18" fill="#33120f"/>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.35;0.39;0.63;0.67;1" dur="3.6s" repeatCount="indefinite"/>
+    <circle cx="34" cy="34" r="18" fill="url(#tlRed)"/>
+    <ellipse cx="34" cy="26" rx="8" ry="5" fill="#ffffff" opacity="0.45"/>
+  </g>
+
+  <!-- yellow -->
+  <circle cx="84" cy="34" r="18" fill="#332b08"/>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.68;0.72;0.96;1" dur="3.6s" repeatCount="indefinite"/>
+    <circle cx="84" cy="34" r="18" fill="url(#tlYellow)"/>
+    <ellipse cx="84" cy="26" rx="8" ry="5" fill="#ffffff" opacity="0.45"/>
+  </g>
+
+  <!-- green (lit at rest, so a frozen first frame reads as "ready") -->
+  <circle cx="134" cy="34" r="18" fill="#0f3318"/>
+  <g>
+    <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.28;0.32;0.96;1" dur="3.6s" repeatCount="indefinite"/>
+    <circle cx="134" cy="34" r="18" fill="url(#tlGreen)"/>
+    <ellipse cx="134" cy="26" rx="8" ry="5" fill="#ffffff" opacity="0.45"/>
+  </g>
+</svg>
