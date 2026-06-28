@@ -15,7 +15,7 @@
       { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/red?label=Running+a+tool' >/dev/null 2>&1 || true" } ] }
     ],
     "Notification": [
-      { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/yellow?flash=1&label=Needs+your+input' >/dev/null 2>&1 || true" } ] }
+      { "hooks": [ { "type": "command", "async": true, "command": "payload=$(cat); printf '%s' \"$payload\" | grep -qi 'waiting for your input' || curl -s -m 1 'localhost:7654/yellow?flash=1&label=Needs+your+input' >/dev/null 2>&1; true" } ] }
     ],
     "Stop": [
       { "hooks": [ { "type": "command", "async": true, "command": "curl -s -m 1 'localhost:7654/green?label=Ready' >/dev/null 2>&1 || true" } ] }
