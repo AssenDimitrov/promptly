@@ -2,9 +2,7 @@
 
 **Know when Claude needs you — without alt-tabbing.**
 
-<!-- Demo: drop a screen recording at docs/demo.gif and uncomment the line below.
-     A 5–8s clip of the spinner going busy → needs-you → ✓ is perfect. -->
-<!-- ![Promptly spinner demo](docs/demo.gif) -->
+![Promptly in action — a quick prompt](docs/what-is-promptly.gif)
 
 Promptly is a tiny, movable, **always-on-top** status light for **macOS & Linux**.
 By default it's a slick **spinner** — it spins while busy, pulses when it needs you,
@@ -166,6 +164,8 @@ The mapping:
 Each hook is just `curl -s -m 1 localhost:7654/<color> || true`, run with
 `async: true` — so if Promptly isn't running, Claude Code is never blocked or
 slowed. Start Promptly, start Claude Code, and the light tracks it live.
+
+![Promptly tracking a longer turn — note the yellow "needs you" state](docs/ask-me-something.gif)
 
 ### Left-click → jump to where Claude is running
 
